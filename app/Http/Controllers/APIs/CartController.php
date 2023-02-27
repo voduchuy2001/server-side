@@ -31,7 +31,6 @@ class CartController extends Controller
             $cart = new Cart(['user_id' => $userId]);
             $cart->save();
         }
-
         $cartItem = $cart->items()->where('product_id', $productId)->first();
         if ($cartItem) {
             // Sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
@@ -62,7 +61,7 @@ class CartController extends Controller
             ], 404);
         }
 
-        $cartItem = $cart->items()->where('product_id', $productId)->first();
+        $cartItem = $cart->items()->where('product_id', $productId)->firstOrFail();
         if (!$cartItem) {
             return response()->json([
                 'message' => 'Product not found in cart'

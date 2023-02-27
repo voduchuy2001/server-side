@@ -15,13 +15,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::post('/change-password', [AuthController::class, 'changePassWord']);
 });
+//lấy tất cả sản phẫm
+Route::get(
+    '/products',
+    [ProductController::class, 'index']
+);
 Route::middleware('auth:api')->group(
     function () {
-        //lấy tất cả sản phẫm
-        Route::get(
-            '/products',
-            [ProductController::class, 'index']
-        );
+
         //thêm sản phẫm
         Route::post('/products', [ProductController::class, 'store']);
         //hiển thị một sản phẫm

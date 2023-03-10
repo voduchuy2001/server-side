@@ -17,19 +17,17 @@ class OrderController extends Controller
             ], 400);
         }
         $order = new Order([
-            'user_id' => $userId,
-            'total_price' => $cart->getTotalPrice()
+            'user_id' => $userId
         ]);
         $order->save();
         foreach ($cart->items as $item) {
             $order->items()->create([
+                'order_id' => $item->id,
                 'product_id' => $item->product->id,
-                'quantity' => $item->quantity,
-                'price' => $item->product->price
+                'quantity' => $item->quantity
             ]);
+            $item->delete();
         }
-        $cart->status = 'ordered';
-        $cart->save();
         return response()->json([
             'data' => $order
         ], 201);

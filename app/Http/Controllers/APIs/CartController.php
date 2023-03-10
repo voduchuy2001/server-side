@@ -70,7 +70,7 @@ class CartController extends Controller
 
         // Cập nhật thông tin sản phẩm trong giỏ hàng
         $quantity = $request->input('quantity');
-        $price = $cartItem->product->price;
+        //$price = $cartItem->product->price;
         $cartItem->quantity = $quantity;
         //$cartItem->subtotal = $quantity * $price;
         $cartItem->save();

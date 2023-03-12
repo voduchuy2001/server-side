@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers\APIs;
 
+use App\Mail\OrderEmail;
 use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 class OrderController extends Controller
 {
@@ -19,7 +21,9 @@ class OrderController extends Controller
         $order = new Order([
             'user_id' => $userId
         ]);
+
         $order->save();
+        
         foreach ($cart->items as $item) {
             $order->items()->create([
                 'order_id' => $item->id,
@@ -28,6 +32,8 @@ class OrderController extends Controller
             ]);
             $item->delete();
         }
+
+        // Mail::to($order->user->email)->send(new OrderEmail);
         return response()->json([
             'data' => $order
         ], 201);
